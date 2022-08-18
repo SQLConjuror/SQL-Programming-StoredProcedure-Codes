@@ -44,7 +44,7 @@ END
 USE AdventureWorks2017
 GO
 
-CREATE PROC spProdList (@MinListPrice AS INT)
+CREATE PROC spListPrice (@MinListPrice AS INT)
 AS
 BEGIN
 	SELECT 	
@@ -64,7 +64,7 @@ END
 USE AdventureWorks2017
 GO
 
-CREATE PROC spProdList (@MinListPrice AS INT)
+CREATE PROC spListPrice (@MinListPrice AS INT)
 AS
 BEGIN
 	SELECT 	
@@ -82,9 +82,9 @@ END
 -- Procedure Execution with Parameters
 ---------------------------------------------------------------------
 
-EXEC spProdList 100
+EXEC spListPrice 100
 
-EXEC spProdList 200
+EXEC spListPrice 500
 
 ---------------------------------------------------------------------
 -- Add several parameters
@@ -93,7 +93,7 @@ EXEC spProdList 200
 USE AdventureWorks2017
 GO
 
-ALTER PROC spProdList 
+ALTER PROC spListPrice 
 	(
 		@MinListPrice AS INT,
 		@MaxListPrice AS INT
