@@ -192,6 +192,19 @@ ORDER BY SellStartDate
 
 -- The IN operator within the Dynamic SQL 
 
+SELECT 
+	ProductID
+	,Name
+	,ProductNumber
+	, SellStartDate
+FROM Production.Product
+WHERE YEAR(SellStartDate) IN (2008, 2011, 2012)
+ORDER BY SellStartDate
+
+
+
+-- The IN operator within the Dynamic SQL 
+
 USE AdventureWorks
 GO
 
@@ -201,22 +214,23 @@ CREATE PROC spSellYears
 )
 AS
 BEGIN
-	
+
 	DECLARE @SQL NVARCHAR(MAX)
 
 	SET @SQL = 
-		N'SELECT *
+		N'SELECT 
+			ProductID
+			,Name
+			,ProductNumber
+			,SellStartDate
 		FROM Production.Product
-		WHERE YEAR(SellStartDate) IN (' + @YearSeries + N')
+		WHERE YEAR(SellStartDate) IN ('+ @YearSeries + N')
 		ORDER BY SellStartDate'
 
 		EXEC sp_executesql @SQL
-
 END
 
 -- N' is to declare that it unicode string
-
-
 
 -- To Test
 EXEC spSellYears '2008, 2011, 2012'

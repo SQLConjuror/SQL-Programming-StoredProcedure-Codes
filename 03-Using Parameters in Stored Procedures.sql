@@ -2,18 +2,47 @@
 -- What are parameters
 ---------------------------------------------------------------------
 
-CREATE PROC spListPrice
+CREATE PROCEDURE spProductInfo2 (@ProdNameLike AS VARCHAR(MAX))
 AS
 BEGIN
-	SELECT Name
+	SELECT 
+        ProductID
+	   ,Name
+	   ,ProductNumber
+	FROM 
+		Production.Product
+	WHERE 
+		Name LIKE '%' + @ProdNameLike + '%'
+	ORDER BY
+		Name ASC
+END
+
+
+-- Example
+EXEC spProductInfo2 'Ball'
+
+EXEC spProductInfo2 'Chain'
+
+-- First Example
+
+CREATE PROC spProdList
+AS
+BEGIN
+	SELECT 	
+		Name
 	   , ListPrice
-	FROM Production.Product
-	WHERE ListPrice >= 100
+	FROM 
+		Production.Product
+	ORDER BY 
+		Name ASC
+	
 END
 
 ---------------------------------------------------------------------
 -- Adding a Parameter
 ---------------------------------------------------------------------
+USE AdventureWorks2017
+GO
 
 CREATE PROC spProdList (@MinListPrice AS INT)
 AS
@@ -32,7 +61,7 @@ END
 -- Parameter Usage  in WHERE Clause
 ---------------------------------------------------------------------+
 
-USE AdventureWorks2017;
+USE AdventureWorks2017
 GO
 
 CREATE PROC spProdList (@MinListPrice AS INT)
@@ -61,7 +90,7 @@ EXEC spProdList 200
 -- Add several parameters
 ---------------------------------------------------------------------
 
-USE AdventureWorks2017;
+USE AdventureWorks2017
 GO
 
 ALTER PROC spProdList 
