@@ -80,7 +80,7 @@ FROM
 
 
 ---------------------------------------------------------------------
--- mending a table valued function
+-- Editing a table valued function
 ---------------------------------------------------------------------
 USE AdventureWorks
 GO
@@ -126,7 +126,38 @@ CREATE FUNCTION EmployeeHireYear
 (
 	@HireYear INT
 )
+RETURNS @t TABLE
+(
+	LoginID VARCHAR(MAX)
+	,HireDate DATETIME
+	,JobTitle VARCHAR(30)
+)
+AS 
+BEGIN
+	INSERT INTO @t
+	SELECT
+		LoginID
+		,HireDate
+		,'Production Technician - WC50'
+	FROM
+		HumanResources.Employee
+	WHERE	
+		YEAR(HireDate) = @HireYear
+		AND JobTitle = 'Production Technician - WC50'
+		
+    INSERT INTO @t
+	SELECT
+		LoginID
+		,HireDate
+		,'Quality Assurance Technician'
+	FROM
+		HumanResources.Employee
+	WHERE	
+		YEAR(HireDate) = @HireYear
+		AND JobTitle = 'Quality Assurance Technician'
 
+	RETURN
+END
 
 ---------------------------------------------------------------------
 -- MSTVF_Usage
@@ -143,48 +174,3 @@ FROM
 	dbo.EmployeeHireYear(2009)
 
 
----------------------------------------------------------------------
--- Modifying MSTVF
----------------------------------------------------------------------
-
-USE AdventureWorks
-GO
-
-CREATE FUNCTION EmployeeHireYear
-(
-	@HireYear INT
-)
-RETURNS @t TABLE
-(
-	LoginID VARCHAR(MAX)
-	,HireDate DATETIME
-	,JobTitle VARCHAR(30)
-)
-AS  
-BEGIN
-	INSERT INTO @t
-	SELECT 
-		LoginID
-		,HireDate
-		,'Production Technician - WC50'
-	FROM 
-		HumanResources.Employee
-	WHERE
-		YEAR(HireDate) = @HireYear 
-		AND JobTitle = 'Production Technician - WC50'
-
-	INSERT INTO @t
-	SELECT 
-		LoginID
-		,HireDate
-		,'Quality Assurance Technician'
-	FROM 
-		HumanResources.Employee
-	WHERE
-		YEAR(HireDate) = @HireYear
-		AND JobTitle = 'Quality Assurance Technician'
-
-
-	RETURN 
-END
-	
